@@ -7,8 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
 
-from resnet import Resnet18
-# from modules.bn import InPlaceABNSync as BatchNorm2d
+from .resnet import Resnet18
 
 
 class ConvBNReLU(nn.Module):
@@ -245,13 +244,14 @@ class BiSeNet(nn.Module):
         feat_fuse = self.ffm(feat_sp, feat_cp8)
 
         feat_out = self.conv_out(feat_fuse)
-        feat_out16 = self.conv_out16(feat_cp8)
-        feat_out32 = self.conv_out32(feat_cp16)
+        # feat_out16 = self.conv_out16(feat_cp8)
+        # feat_out32 = self.conv_out32(feat_cp16)
 
         feat_out = F.interpolate(feat_out, (H, W), mode='bilinear', align_corners=True)
-        feat_out16 = F.interpolate(feat_out16, (H, W), mode='bilinear', align_corners=True)
-        feat_out32 = F.interpolate(feat_out32, (H, W), mode='bilinear', align_corners=True)
-        return feat_out, feat_out16, feat_out32
+        # feat_out16 = F.interpolate(feat_out16, (H, W), mode='bilinear', align_corners=True)
+        # feat_out32 = F.interpolate(feat_out32, (H, W), mode='bilinear', align_corners=True)
+        # return feat_out, feat_out16, feat_out32
+        return feat_out
 
     def init_weight(self):
         for ly in self.children():
